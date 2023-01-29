@@ -3,6 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Dart.GamePage"
              Title="GamePage">
-
-    <Label Text="This is game page"/>
+    <Grid ColumnDefinitions="Auto, Auto, Auto, Auto, Auto" RowDefinitions="Auto, Auto, Auto, Auto">
+        <Label Grid.Column="0" Grid.Row="0" x:Name="lbPlayer1"/>
+        <Entry Grid.Column="1" Grid.Row="0" x:Name="entPlayer1_First"/>
+        <Entry Grid.Column="2" Grid.Row="0" x:Name="entPlayer1_Sec"/>
+        <Entry Grid.Column="3" Grid.Row="0" x:Name="entPlayer1_Third"/>
+        <Label Grid.Column="4" Grid.Row="0" x:Name="lbPlayer1_Score" FontAttributes="Bold"/>
+    </Grid>
 </ContentPage>

@@ -3,7 +3,9 @@
 namespace Dart;
 
 public partial class MainPage : ContentPage
-{ 
+{
+	private readonly Thickness MarginPrimary = new Thickness(10, 10, 0, 0);
+	private readonly Thickness MarginSecondary = new Thickness(20, 10, 0, 0);
 
 	public MainPage()
 	{
@@ -22,14 +24,38 @@ public partial class MainPage : ContentPage
 		var selectedPlayersCount = (int)playersCountPicker.SelectedItem;
 		var finishWithDouble = (string)doubleRulePicker.SelectedItem == "Włączona" ? true : false;
 		List<Player> playersList = new List<Player>();
-		for (int i = 0; i > selectedPlayersCount; i++)
+		var userInputs = grPlayers.Where(x => x.GetType() == typeof(Entry));
+		foreach(var input in userInputs)
 		{
-			playersList.Add(new Player(string.Format("Player {0} name", i)));
+			playersList.Add(new Player(((Entry)input).Text));
 		}
-
 		var gameModel = new GameModel(playersList, selectedGameVariant, finishWithDouble);
-		await Navigation.PushAsync(new GamePage());
+		await Navigation.PushAsync(new GamePage(gameModel));
 		
+	}
+
+	private void playersCountPicker_SelectedIndexChanged(object sender, EventArgs e)
+	{
+		var playersCount = (int)playersCountPicker.SelectedItem;
+
+		for (int i = 0; i < playersCount; i++)
+		{
+			GenerateAddUserControls(i);
+		}
+	}
+
+	private void GenerateAddUserControls(int playerNumber)
+	{
+		grPlayers.RowDefinitions.Add(new RowDefinition());
+		var userLabel = new Label();
+		userLabel.Margin = MarginSecondary;
+		userLabel.Text = string.Format("Imię gracza {0}", playerNumber + 1);
+		grPlayers.Add(userLabel, 0, playerNumber);
+
+		var userInput = new Entry();
+		userInput.Margin = MarginSecondary;
+		userInput.MinimumWidthRequest = 200;
+		grPlayers.Add(userInput, 1, playerNumber);
 	}
 }
 
