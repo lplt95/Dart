@@ -2,20 +2,20 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Dart.MainPage">
-    <Grid x:Name="grStartGame" ColumnDefinitions="1">
-        <Label Margin="10, 0, 0, 0" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black"
+    <Grid x:Name="grStartGame" ColumnDefinitions="Auto, Auto" RowDefinitions="Auto, Auto, Auto, Auto">
+        <Label Grid.Row="0" Grid.Column="0" Margin="10, 0, 0, 0" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black"
                FontAttributes="Bold" Text="Wybierz liczbę graczy (2-4)"/>
-        <Picker x:Name="playersCountPicker" Margin="0, 10, 0, 0" VerticalOptions="Start" HorizontalOptions="Start"
+        <Picker Grid.Row="0" Grid.Column="1" x:Name="playersCountPicker" Margin="0, 10, 0, 0" VerticalOptions="Start" HorizontalOptions="Start"
                 WidthRequest="100" BackgroundColor="White" TextColor="Black"/>
-        <Label Margin="10, 0, 0, 0" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black"
+        <Label Grid.Row="1" Grid.Column="0" Margin="10, 0, 0, 0" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black"
                FontAttributes="Bold" Text="Wybierz wariant gry"/>
-        <Picker x:Name="gameVariantPicker" Margin="0, 10, 0, 0" VerticalOptions="Start" HorizontalOptions="Start"
+        <Picker Grid.Row="1" Grid.Column="1" x:Name="gameVariantPicker" Margin="0, 10, 0, 0" VerticalOptions="Start" HorizontalOptions="Start"
                 WidthRequest="100" BackgroundColor="White" TextColor="Black"/>
-        <Label Margin="10, 0, 0, 0" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black"
+        <Label Grid.Row="2" Grid.Column="0" Margin="10, 0, 0, 0" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black"
                FontAttributes="Bold" Text="Zasada kończenia doublem"/>
-        <Picker x:Name="doubleRulePicker" Margin="0, 10, 0, 0" VerticalOptions="Start" HorizontalOptions="Start"
+        <Picker Grid.Row="2" Grid.Column="1" x:Name="doubleRulePicker" Margin="0, 10, 0, 0" VerticalOptions="Start" HorizontalOptions="Start"
                 WidthRequest="100" BackgroundColor="White" TextColor="Black"/>
-        <Button x:Name="startGameBt" Margin="10, 10, 0, 0" VerticalOptions="Start" HorizontalOptions="Start"
+        <Button Grid.Row="3" x:Name="startGameBt" Margin="10, 10, 0, 0" VerticalOptions="Start" HorizontalOptions="Start"
                 Text="Start!" Clicked="startGameBt_Clicked"/>
     </Grid>
 
