@@ -22,4 +22,14 @@ public class Player
     {
         return Name;
     }
+
+    public int GetCurrentScore()
+    {
+        int score = 0;
+        foreach(var result in ResultList)
+        {
+            score = score + result.GetResult();
+        }
+        return score;
+    }
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Dart.ResultPage"
+             Title="Rezultaty">
+    <Grid ColumnDefinitions="*" RowDefinitions="30, Auto" RowSpacing="20" Margin="10, 20, 10, 0">
+        <Label x:Name="plLabel" Grid.Row="0" HorizontalOptions="Center" FontAttributes="Bold" FontSize="Large"/>
+        <ListView x:Name="lvResults" Grid.Row="1">
+            <ListView.Header>
+                <Grid ColumnDefinitions="*, *, *, *, *" RowDefinitions="Auto">
+                    <Label Grid.Column="0" Text="Runda" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="1" Text="Rzut 1" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="2" Text="Rzut 2" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="3" Text="Rzut 3" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Grid.Column="4" Text="Wynik" FontAttributes="Bold" HorizontalOptions="Center"/>
+                </Grid>
+            </ListView.Header>
+        </ListView>
+    </Grid>
+</ContentPage>
