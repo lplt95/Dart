@@ -6,7 +6,7 @@ public partial class MainPage : ContentPage
 {
 	private readonly Thickness MarginPrimary = new Thickness(10, 10, 0, 0);
 	private readonly Thickness MarginSecondary = new Thickness(20, 10, 0, 0);
-	private readonly bool isDebug = false;
+	private readonly bool isDebug = true;
 
 	public MainPage()
 	{
@@ -30,6 +30,11 @@ public partial class MainPage : ContentPage
 		var finishWithDouble = (string)doubleRulePicker.SelectedItem == "Włączona" ? true : false;
 		List<Player> playersList = new List<Player>();
 		var userInputs = grPlayers.Where(x => x.GetType() == typeof(Entry));
+		if(ValidateInputs(userInputs))
+		{
+			await DisplayAlert("Czegoś zapomniałeś", "Nie wszystkie pola z imionami zostały wypełnione.", "OK");
+			return;
+		}
 		foreach(var input in userInputs)
 		{
 			playersList.Add(new Player(((Entry)input).Text));
@@ -80,6 +85,20 @@ public partial class MainPage : ContentPage
 	{
 		((Entry)sender).IsEnabled = false;
 		((Entry)sender).IsEnabled = true;
+	}
+
+	private bool ValidateInputs(IEnumerable<IView> views)
+	{
+		bool isValid = true;
+		foreach(Entry view in views)
+		{
+			if(string.IsNullOrEmpty(view.Text))
+			{
+				isValid = false;
+				return isValid;
+			}
+		}
+		return isValid;
 	}
 }
 

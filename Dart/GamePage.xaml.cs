@@ -25,10 +25,10 @@ public partial class GamePage : ContentPage
 		Title = string.Format("Gra dla {0} osób", model.PlayersList.Count);
 		List<int> multi = new List<int>() { 1, 2, 3 };
 		SetPicker(multi);
-		SetInitial();
+		SetStartingValues();
 	}
 
-	private async void SetInitial()
+	private async Task SetInitial()
 	{
         pick1Multi.SelectedIndex = 0;
         pick2Multi.SelectedIndex = 0;
@@ -42,10 +42,7 @@ public partial class GamePage : ContentPage
         throw1Empty.IsChecked = false;
 		throw2Empty.IsChecked = false;
 		throw3Empty.IsChecked = false;
-        currentPlayer = model.PlayersList[loopCount];
-        currPlLabel.Text = string.Format("Aktualnie rzuca: {0}", currentPlayer.Name);
-		playerScore = model.GameVariant - currentPlayer.GetCurrentScore();
-		currentPlayerScore = playerScore;
+		SetStartingValues();
 		await DisplayAlert("Twój ruch!", string.Format("Masz {0} do końca", playerScore), "OK");
 		UpdateScore();
 	}
@@ -259,12 +256,12 @@ public partial class GamePage : ContentPage
 		}
 	}
 
-	private void SaveResultAndFinishRound(object sender, EventArgs e)
+	private async void SaveResultAndFinishRound(object sender, EventArgs e)
 	{
 		thr1Score.Unfocus();
 		thr2Score.Unfocus();
 		thr3Score.Unfocus();
-		EndPlayerRound(true);
+		await EndPlayerRound(true);
 	}
 
 	private void ShowPlayerResults(object sender, EventArgs e)
@@ -272,7 +269,7 @@ public partial class GamePage : ContentPage
 		Navigation.PushModalAsync(new ResultPage(currentPlayer));
 	}
 
-	private void EndPlayerRound(bool saveScore)
+	private async Task EndPlayerRound(bool saveScore)
 	{
         loopCount++;
         if (loopCount == model.PlayersList.Count)
@@ -282,12 +279,12 @@ public partial class GamePage : ContentPage
 		{
 			var round = new Round(++roundNumber, firstScore, secondScore, thirdScore);
 			currentPlayer.ResultList.Add(round);
-			SetInitial();
+			await SetInitial();
 		}
 		else
 		{
 			currentPlayer.ResultList.Add(new Round(++roundNumber, 0, 0, 0));
-			SetInitial();
+			await SetInitial();
 		}
 	}
 
@@ -305,7 +302,7 @@ public partial class GamePage : ContentPage
 					player.ResultList.Clear();
 				}
 				loopCount = 0;
-				SetInitial();
+				await SetInitial();
 			}
 			else
 			{
@@ -355,6 +352,15 @@ public partial class GamePage : ContentPage
 				}
 		}
 	}
+
+	private void SetStartingValues()
+	{
+        currentPlayer = model.PlayersList[loopCount];
+        currPlLabel.Text = string.Format("Aktualnie rzuca: {0}", currentPlayer.Name);
+        playerScore = model.GameVariant - currentPlayer.GetCurrentScore();
+        currentPlayerScore = playerScore;
+		UpdateScore();
+    }
 
 	private async Task DisplayDevMessage(string alternativeText = null)
 	{
