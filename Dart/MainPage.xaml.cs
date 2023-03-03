@@ -48,7 +48,7 @@ public partial class MainPage : ContentPage
 	{
 		grPlayers.Clear();
 		var playersCount = (int)playersCountPicker.SelectedItem;
-		List<string> names = new List<string>() { "AAAA", "BBBB", "CCCC", "DDDD" };
+		List<string> names = new List<string>() { "Radek", "Paula", "CCCC", "DDDD" };
 
 		for (int i = 0; i < playersCount; i++)
 		{

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,3 +30,15 @@ public class GameModel
             return string.Format("Gramy do {0}, nie musisz skończyć doublem", GameVariant);
     }
 }
+
+public class PlayersList : ObservableCollection<Player>
+{
+    public PlayersList(List<Player> playersList) : base()
+    {
+        foreach(Player player in playersList)
+        {
+            Add(player);
+        }
+    }
+}
+

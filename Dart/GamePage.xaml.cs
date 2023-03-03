@@ -1,5 +1,6 @@
 ﻿using Dart.Model;
 using Microsoft.Maui.Graphics;
+using System.Collections.ObjectModel;
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
@@ -9,7 +10,8 @@ namespace Dart;
 public partial class GamePage : ContentPage
 {
 	public GameModel model { get; set; }
-	Player currentPlayer;
+	ObservableCollection<Player> playersList;
+    Player currentPlayer;
 	int playerScore;
 	int currentPlayerScore;
 	int firstScore;
@@ -22,8 +24,13 @@ public partial class GamePage : ContentPage
 	{
 		InitializeComponent();
 		model = gameModel;
-		Title = string.Format("Gra dla {0} osób", model.PlayersList.Count);
+        Title = string.Format("Gra dla {0} osób", model.PlayersList.Count);
 		List<int> multi = new List<int>() { 1, 2, 3 };
+		playersList = new ObservableCollection<Player>();
+		foreach(var player in model.PlayersList)
+		{
+			playersList.Add(player);
+		}
 		SetPicker(multi);
 		SetStartingValues();
 	}
@@ -43,7 +50,7 @@ public partial class GamePage : ContentPage
 		throw2Empty.IsChecked = false;
 		throw3Empty.IsChecked = false;
 		SetStartingValues();
-		await DisplayAlert("Twój ruch!", string.Format("Masz {0} do końca", playerScore), "OK");
+		await DisplayAlert(string.Format("Rzuca {0}", currentPlayer.Name), string.Format("Masz {0} do końca", playerScore), "OK");
 		UpdateScore();
 	}
 
@@ -279,7 +286,8 @@ public partial class GamePage : ContentPage
 		{
 			var round = new Round(++roundNumber, firstScore, secondScore, thirdScore);
 			currentPlayer.ResultList.Add(round);
-			await SetInitial();
+			playersList.First(x => x.Name == currentPlayer.Name).GetCurrentScore();
+            await SetInitial();
 		}
 		else
 		{
@@ -359,7 +367,8 @@ public partial class GamePage : ContentPage
         currPlLabel.Text = string.Format("Aktualnie rzuca: {0}", currentPlayer.Name);
         playerScore = model.GameVariant - currentPlayer.GetCurrentScore();
         currentPlayerScore = playerScore;
-		UpdateScore();
+		SetResultsList();
+        UpdateScore();
     }
 
 	private async Task DisplayDevMessage(string alternativeText = null)
@@ -367,4 +376,28 @@ public partial class GamePage : ContentPage
 		string messageText = string.IsNullOrWhiteSpace(alternativeText) ? "Developer jest kretynem i coś zepsuł. Zgłoś mu to." : alternativeText;
         await DisplayAlert("Dev coś zepsuł", messageText, "Eh, ok...");
     }
+
+	private void SetResultsList()
+	{
+		grResultsList.Clear();
+		var margin = new Thickness(0, 0, 0, 10);
+		int rowCount = 0;
+		foreach(var player in model.PlayersList)
+		{
+			grResultsList.AddRowDefinition(new RowDefinition(30));
+			var playerLabel = new Label()
+			{
+				Margin = margin,
+				Text = player.Name,
+			};
+			grResultsList.Add(playerLabel, 0, rowCount);
+			var scoreLabel = new Label()
+			{
+				Margin = margin,
+				Text = player.CurrentScore.ToString()
+			};
+			grResultsList.Add(scoreLabel, 1, rowCount);
+			rowCount++;
+		}
+	}
 }

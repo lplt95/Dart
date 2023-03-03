@@ -10,6 +10,8 @@ public class Player
 {
     public string Name { get; set; }
 
+    public int CurrentScore { get; set; }
+
     public List<Round> ResultList { get; set; }
 
     public Player(string name)
@@ -30,6 +32,7 @@ public class Player
         {
             score = score + result.GetResult();
         }
+        CurrentScore = score;
         return score;
     }
 }
